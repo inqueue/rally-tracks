@@ -1,0 +1,15 @@
+{
+  "name": "logs-kubernetes.container_logs@custom",
+  "component_template": {
+    "template": {
+      "settings": {}
+    },
+    "_meta": {
+      "package": {
+        "name": "kubernetes"
+      },
+      "managed_by": "fleet",
+      "managed": true
+    }
+  }
+}

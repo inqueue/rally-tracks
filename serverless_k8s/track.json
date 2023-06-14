@@ -1,0 +1,82 @@
+{% import "rally.helpers" as rally with context %}
+{
+  "version": 2,
+  "description": "Track for serverles_k8s",
+  "component-templates": [
+    {
+      "name": "logs-kubernetes.container_logs@custom",
+      "template": "templates/logs-kubernetes.container_logs@custom.json",
+      "template-path": "component_template"
+    },
+    {
+      "name": "logs-kubernetes.container_logs@package",
+      "template": "templates/logs-kubernetes.container_logs@package.json",
+      "template-path": "component_template"
+    },
+    {
+      "name": "metrics-kubernetes.pod@custom",
+      "template": "templates/metrics-kubernetes.pod@custom.json",
+      "template-path": "component_template"
+    },
+    {
+      "name": "metrics-kubernetes.pod@package",
+      "template": "templates/metrics-kubernetes.pod@package.json",
+      "template-path": "component_template"
+    }
+  ],
+  "composable-templates": [
+    {
+      "name": "logs-kubernetes.container_logs",
+      "index-pattern": "logs-kubernetes.container_logs-*",
+      "delete-matching-indices": true,
+      "template": "templates/logs-kubernetes.container_logs.json",
+      "template-path": "index_template"
+    },
+    {
+      "name": "metrics-kubernetes.pod",
+      "index-pattern": "metrics-kubernetes.pod-*",
+      "delete-matching-indices": true,
+      "template": "templates/metrics-kubernetes.pod.json",
+      "template-path": "index_template"
+    }
+  ],
+  "data-streams": [
+    {
+      "name": "logs-kubernetes.container_logs"
+    },
+    {
+      "name": "metrics-kubernetes.pod"
+    }
+  ],
+  "corpora": [
+    {
+      "name": "kubernetes-container-logs",
+      "documents": [
+        {
+          "source-file": "doc-ds-metrics-kubernetes.container.json.bz2",
+          "target-data-stream": "logs-kubernetes.container_logs",
+          "base-url": "gs://rally-tracks/serverless_k8s",
+          "document-count": 10000,
+          "uncompressed-bytes": 111639050,
+          "compressed-bytes": 3624141
+        }
+      ]
+    },
+    {
+      "name": "kubernetes-pod-metrics",
+      "documents": [
+        {
+          "source-file": "doc-ds-metrics-kubernetes.pod.json.bz2",
+          "target-data-stream": "metrics-kubernetes.pod",
+          "base-url": "gs://rally-tracks/serverless_k8s",
+          "document-count": 10000,
+          "uncompressed-bytes": 107370778,
+          "compressed-bytes": 2760222
+        }
+      ]
+    }
+  ],
+  "challenges": [
+    {{ rally.collect(parts="challenges/*.json") }}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "logs-kubernetes.container_logs",
+  "index_template": {
+    "index_patterns": [
+      "logs-kubernetes.container_logs*"
+    ],
+    "template": {
+      "settings": {},
+      "mappings": {
+        "_meta": {
+          "package": {
+            "name": "kubernetes"
+          },
+          "managed_by": "fleet",
+          "managed": true
+        }
+      }
+    },
+    "composed_of": [
+      "logs-kubernetes.container_logs@package",
+      "logs-kubernetes.container_logs@custom"
+    ],
+    "priority": 200,
+    "_meta": {
+      "package": {
+        "name": "kubernetes"
+      },
+      "managed_by": "fleet",
+      "managed": true
+    },
+    "data_stream": {
+      "hidden": false,
+      "allow_custom_routing": false
+    }
+  }
+}

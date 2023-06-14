@@ -1,0 +1,65 @@
+{
+  "name": "append-no-conflicts-with-refresh",
+  "description": "Index the entire document corpus",
+  "default": true,
+  "schedule": [
+    {
+      "name": "delete-data-streams",
+      "operation": {
+        "operation-type": "delete-data-stream"
+      }
+    },
+    {
+      "name": "delete-track-composable-templates",
+      "operation": {
+        "operation-type": "delete-composable-template"
+      }
+    },
+    {
+      "name": "delete-track-component-templates",
+      "operation": {
+        "operation-type": "delete-component-template"
+      }
+    },
+    {
+      "name": "create-track-component-templates",
+      "operation": {
+        "operation-type": "create-component-template"
+      }
+    },
+    {
+      "name": "create-track-composable-templates",
+      "operation": {
+        "operation-type": "create-composable-template"
+      }
+    },
+    {
+      "name": "create-track-datastreams",
+      "operation": {
+        "operation-type": "create-data-stream"
+      }
+    },
+    {
+      "name": "bulk-index-logs",
+      "operation": {
+        "operation-type": "bulk",
+        "bulk-size": {{bulk_size | default(5000)}},
+        "corpora": "kubernetes-container-logs",
+        "ingest-percentage": {{ingest_percentage | default(100)}},
+        "clients": {{bulk_indexing_clients | default(8)}},
+        "refresh": "true"
+      }
+    },
+    {
+      "name": "bulk-index-metrics",
+      "operation": {
+        "operation-type": "bulk",
+        "bulk-size": {{bulk_size | default(5000)}},
+        "corpora": "kubernetes-pod-metrics",
+        "ingest-percentage": {{ingest_percentage | default(100)}},
+        "clients": {{bulk_indexing_clients | default(8)}},
+        "refresh": "true"
+      }
+    }
+  ]
+}
