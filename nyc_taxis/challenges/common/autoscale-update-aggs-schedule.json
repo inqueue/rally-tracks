@@ -72,6 +72,7 @@
         }
       },
       {
+        "name": "teest {{task_label}}",
         "operation": "date_histogram_calendar_interval",
         "time-period": 7200,
         "target-throughput": 50
