@@ -960,4 +960,12 @@
       "schedule": [
         {{ rally.collect(parts="common/autoscale-update-schedule.json") }}
       ]
+    },
+    {
+      "name": "autoscale-updates-aggs",
+      "description": "Bulk indexes documents with conflicts with a varying number of clients with parallel aggs",
+      "default": false,
+      "schedule": [
+        {{ rally.collect(parts="common/autoscale-update-aggs-schedule.json") }}
+      ]
     }
