@@ -53,7 +53,7 @@
 {
   "parallel": {
     "completed-by": "update-{{step}}-{{bulk_clients}}clients-{{task_label}}",
-    "clients": {{total_clients}},
+    "clients": {{total_clients|int}},
     "tasks": [
       {
         "name": "update-{{step}}-{{bulk_clients}}clients-{{task_label}}",
