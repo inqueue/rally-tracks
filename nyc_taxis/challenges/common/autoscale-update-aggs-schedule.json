@@ -47,6 +47,7 @@
         {%- set p_ingest_percentage = p_ingest_percentage * 0.5 %}
     {%- else %}
         {%- set task_label = "full" %}
+        {%- set total_clients = (p_as_bulk_clients_base + p_as_bulk_clients_base * 0.5) * step %}
         {%- set bulk_clients = p_as_bulk_clients_base * step %}
     {%- endif %}
 {
