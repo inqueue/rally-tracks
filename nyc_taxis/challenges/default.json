@@ -952,4 +952,12 @@
       "schedule": [
         {{ rally.collect(parts="common/autoscale-schedule.json") }}
       ]
+    },
+    {
+      "name": "autoscale-updates",
+      "description": "Bulk indexes documents with conflicts with a varying number of clients",
+      "default": false,
+      "schedule": [
+        {{ rally.collect(parts="common/autoscale-update-schedule.json") }}
+      ]
     }
