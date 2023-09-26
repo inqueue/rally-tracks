@@ -75,22 +75,24 @@
         "name": "date_histogram_calendar_interval-{{step}}-{{task_label}}",
         "time-period": 7200,
         "target-throughput": 50,
-        "operation-type": "search",
-        "body": {
-          "size": 0,
-          "query": {
-            "range": {
-              "dropoff_datetime": {
-                "gte": "2015-01-01 00:00:00",
-                "lt": "2015-03-01 00:00:00"
+        "operation": {
+          "operation-type": "search",
+          "body": {
+            "size": 0,
+            "query": {
+              "range": {
+                "dropoff_datetime": {
+                  "gte": "2015-01-01 00:00:00",
+                  "lt": "2015-03-01 00:00:00"
+                }
               }
-            }
-          },
-          "aggs": {
-            "dropoffs_over_time": {
-              "date_histogram": {
-                "field": "dropoff_datetime",
-                "calendar_interval": "week"
+            },
+            "aggs": {
+              "dropoffs_over_time": {
+                "date_histogram": {
+                  "field": "dropoff_datetime",
+                  "calendar_interval": "week"
+                }
               }
             }
           }
