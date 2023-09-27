@@ -32,7 +32,7 @@
     "operation-type": "bulk",
     "bulk-size": {{bulk_size | default(10000)}},
     "ingest-percentage": 25,
-    "details-results": false
+    "detailed-results": false
   }
 }
 {%- set p_as_bulk_step_count = as_bulk_step_count | default(3) %}
