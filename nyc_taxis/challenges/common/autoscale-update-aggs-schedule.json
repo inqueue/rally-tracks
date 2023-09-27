@@ -35,6 +35,7 @@
     "detailed-results": false
   }
 }
+{%- set p_bulk_time_period = as_bulk_time_period | default(3600) %}
 {%- set p_as_bulk_step_count = as_bulk_step_count | default(3) %}
 {%- set p_as_bulk_clients_base = as_bulk_clients_base | default(8) %}
 {%- set p_as_reduce_factor = as_reduce_factor | default(3) %}
@@ -58,7 +59,7 @@
       {
         "name": "update-{{step}}-{{bulk_clients}}clients-{{task_label}}",
         "clients": {{bulk_clients}},
-        "time-period": 500,
+        "time-period": {{p_bulk_time_period}},
         "ignore-response-error-level": "{{error_level | default('non-fatal')}}",
         "operation": {
           "operation-type": "bulk",
