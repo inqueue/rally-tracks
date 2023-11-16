@@ -1,0 +1,73 @@
+{% import "rally.helpers" as rally %}
+{
+  "name": "logging-indexing-querying-rampup",
+  "description": "Indexes logs either, throttled or un-throttled, at a specified raw volume per day whilst concurrently sending queries with incremental rampup.",
+  "schedule": [
+    {%- include "tasks/index-setup.json" %},
+    {%- if bulk_start_date and bulk_end_date %}
+      {
+        "name": "bulk-index-initial-load",
+        "operation": {
+          "operation-type": "raw-bulk",
+          "param-source": "processed-source",
+          "init-load": true,
+          "time-format": "milliseconds",
+          "profile": "fixed_interval",
+          "bulk-size": {{ p_bulk_size }},
+          "detailed-results": true
+        },
+        "clients": {{ p_bulk_indexing_clients }},
+        "ignore-response-error-level": "{{error_level | default('non-fatal')}}"
+      }
+    {%- endif %}
+    {%- set p_iteration_count = iteration_count | default(6) %}
+    {%- for step in range(1, p_iteration_count + 1, 1) %},
+          {%- set p_runtime_indexing_clients = p_runtime_indexing_clients * step %}
+          {%- set task_label = "rampup-" %}
+    {
+      "name": "logging-queries-and-indexing-{{task_label}}{{step}}",
+      "parallel": {
+        "completed-by": "bulk-index-{{task_label}}{{step}}",
+        "tasks": [
+          {%- for workflow in p_query_workflows %}
+            {
+              "name": "{{workflow}}-{{task_label}}{{step}}",
+              "operation": {
+                "operation-type": "composite",
+                "param-source": "workflow-selector",
+                "workflow": {{workflow | tojson }},
+                "task-offset": {{ loop.index }},
+                "request-params": {{ p_query_request_params | tojson(indent=2) }}
+              },
+              "think-time-interval": {{ p_user_think_time }},
+              "workflow-interval": {{ p_user_workflow_time }},
+              "time-period": 99999,
+              "warmup-time-period": {{ p_query_warmup_time_period }},
+              "clients": {{ p_search_clients }},
+              "schedule": "workflow-scheduler"
+            },
+          {%- endfor %}
+            {
+              "name": "bulk-index-{{task_label}}{{step}}",
+              "operation": {
+                "operation-type": "raw-bulk",
+                "param-source": "processed-source",
+                "time-format": "milliseconds",
+                "profile": "fixed_interval",
+                "bulk-size": {{ p_runtime_bulk_size }},
+                "detailed-results": true
+              },
+              "clients": {{ p_runtime_indexing_clients }},
+              "ingest-percentage": {{ ingest_percentage | default(100) }}
+              {%- if p_throttle_indexing %},
+                "ignore-response-error-level": "{{error_level | default('non-fatal')}}",
+                "schedule": "timestamp-throttler",
+                "max-delay-secs": 1
+              {%- endif %}
+            }
+        ]
+      }
+    }
+    {%- endfor %}
+  ]
+}
