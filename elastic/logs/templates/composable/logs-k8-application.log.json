@@ -20,11 +20,10 @@
           "default_field": [
             "message"
           ]
-        },
-        {%- if disable_pipelines is not true %}
-        "default_pipeline": "logs-k8-app",
+        }
+        {%- if not disable_pipelines %},
+        "default_pipeline": "logs-k8-app"
         {%- endif %}
-        "refresh_interval": "5s"
       }
     },
     "mappings": {
