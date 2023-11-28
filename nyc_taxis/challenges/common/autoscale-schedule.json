@@ -47,7 +47,8 @@
   "operation": {
     "operation-type": "bulk",
     "bulk-size": {{bulk_size | default(10000)}},
-    "ingest-percentage": {{p_ingest_percentage|int}}
+    "ingest-percentage": {{p_ingest_percentage|int}},
+    "timeout": {{bulk_timeout | default("1m")}}
   }
 }
 {%- endfor %}
