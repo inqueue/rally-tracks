@@ -3,7 +3,7 @@
     "auditbeat-*"
   ],
   "template": {
-  {% if lifecycle == "ilm" or (not lifecycle and build_flavor == "default") %}
+  {%- if lifecycle == "ilm" or (not lifecycle and build_flavor == "default") %}
     "settings": {
       "index": {
         "lifecycle": {

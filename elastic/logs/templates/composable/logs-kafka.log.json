@@ -158,9 +158,9 @@
                   "properties": {
                     "message": {
                       "type": "text"
-                      {% if synthetic_source_mode | default(false) is true %},
+                      {%- if synthetic_source_mode | default(false) %},
                       "store": true
-                      {% endif %}
+                      {%- endif %}
                     },
                     "class": {
                       "ignore_above": 1024,
@@ -269,17 +269,17 @@
         },
         "message": {
           "type": "text"
-          {% if synthetic_source_mode | default(false) is true %},
+          {%- if synthetic_source_mode | default(false) %},
           "store": true
-          {% endif %}
+          {%- endif %}
         },
         "error": {
           "properties": {
             "message": {
               "type": "text"
-              {% if synthetic_source_mode | default(false) is true %},
+              {%- if synthetic_source_mode | default(false) %},
               "store": true
-              {% endif %}
+              {%- endif %}
             }
           }
         },
