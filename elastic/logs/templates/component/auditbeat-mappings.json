@@ -1785,9 +1785,9 @@
             "message": {
               "norms": false,
               "type": "text"
-              {% if synthetic_source_mode | default(false) is true %},
+              {%- if synthetic_source_mode | default(false) %},
               "store": true
-              {% endif %}
+              {%- endif %}
             },
             "stack_trace": {
               "fields": {
@@ -2944,9 +2944,9 @@
         "message": {
           "norms": false,
           "type": "text"
-          {% if synthetic_source_mode | default(false) is true %},
+          {%- if synthetic_source_mode | default(false) %},
           "store": true
-          {% endif %}
+          {%- endif %}
         },
         "network": {
           "properties": {
