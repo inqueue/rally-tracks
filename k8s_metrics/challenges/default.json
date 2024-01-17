@@ -180,6 +180,69 @@
   ]
 },
 {
+  "name": "append-metrics-recovery-index-only",
+  "description": "Index a metrics document corpus.",
+  "schedule": [
+    {
+      "name": "delete-data-streams",
+      "operation": {
+        "operation-type": "delete-data-stream"
+      }
+    },
+    {
+      "name": "delete-track-composable-templates",
+      "operation": {
+        "operation-type": "delete-composable-template",
+        "template": "metrics-kubernetes.pod-template"
+      }
+    },
+    {
+      "name": "delete-track-component-templates",
+      "operation": {
+        "operation-type": "delete-component-template"
+      }
+    },
+    {
+      "name": "create-track-component-templates",
+      "operation": {
+        "operation-type": "create-component-template"
+      }
+    },
+    {
+      "name": "create-track-composable-templates",
+      "operation": {
+        "operation-type": "create-composable-template",
+        "template": "metrics-kubernetes.pod-template"
+      }
+    },
+    {
+      "operation": "create-metrics-datastream"
+    },
+    {
+      "name": "check-cluster-health",
+      "operation": {
+        "operation-type": "cluster-health",
+        "request-params": {
+          "wait_for_status": "{{cluster_health | default('green')}}",
+          "wait_for_no_relocating_shards": "true"
+        },
+        "retry-until-success": true
+      }
+    }
+    {%- set p_bulk_iterations = bulk_iterations | default(3) %}
+    {%- for iteration in range(1, p_bulk_iterations + 1, 1) %},
+    {
+      "name": "bulk-index-metrics-{{iteration}}",
+      "operation": {
+        "operation-type": "bulk-index-metrics"
+      },
+      "clients": {{bulk_indexing_clients | default(8)}},
+      "tags": "bulk-index"
+    }
+    {%- endfor %}
+  ]
+},
+{
   "name": "append-no-conflicts-metrics-with-fast-refresh",
   "description": "Index a metrics document corpus while indexing a small Kibana corpus to a separate fast refresh index.",
   "schedule": [
