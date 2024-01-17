@@ -19,7 +19,6 @@
       }
     },
     "composed_of": [
-      "metrics-kubernetes.pod@package",
       "metrics-kubernetes.pod@custom"
     ],
     "priority": 200,
