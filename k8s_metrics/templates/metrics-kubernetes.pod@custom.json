@@ -12,7 +12,6 @@
           {%- if refresh_interval %}
           "refresh_interval": "{{refresh_interval}}",
           {%- endif %}
-          "codec": "best_compression",
           "mapping": {
             "total_fields": {
               "limit": "10000"
