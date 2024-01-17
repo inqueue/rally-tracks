@@ -15,11 +15,6 @@
       "name": "metrics-kubernetes.pod@custom",
       "template": "templates/metrics-kubernetes.pod@custom.json",
       "template-path": "component_template"
-    },
-    {
-      "name": "metrics-kubernetes.pod@package",
-      "template": "templates/metrics-kubernetes.pod@package.json",
-      "template-path": "component_template"
     }
   ],
   "data-streams": [
