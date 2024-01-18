@@ -98,3 +98,18 @@ Index a small Kibana corpus to a system index with fast refresh enabled, and sim
 * `fast_refresh_clients` (default: `1`)
 * `fast_refresh_indexing_throughput` (default: `2.7`)
 * `fast_refresh_search_throughput` (default: `1`)
+
+### `append-metrics-recovery-index-only`
+
+Index a metrics document corpus. This challenge can be used to inspect timings of various cluster operations, such as recoveries. This challenge can be executed against both stateful and serverless Elasticsearch.
+
+#### Parameters
+
+* `bulk_indexing_clients` (default: `8`)
+* `bulk_iterations` (default: `3`) Each bulk indexing iteration yields a data set size of ~6.8gb.
+* `bulk_size` (default: `1000`)
+* `generate_ids` (default: `unset`) Set to `true` for Rally to generate document IDs, overriding Elasticearch automatic ID generation.
+* `ingest_percentage` (default: `100`)
+* `number_of_replicas` (default: `1`)
+* `number_of_shards` (default: `1`)
+* `refresh_interval` (default: `unset`)

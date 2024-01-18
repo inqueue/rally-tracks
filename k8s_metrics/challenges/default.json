@@ -237,6 +237,10 @@
         "operation-type": "bulk",
         "bulk-size": {{bulk_size | default(1000)}},
         "corpora": "kubernetes-pod-metrics",
+        {%- if generate_ids == true %}
+        "conflicts": "sequential",
+        "conflict-probability": 0,
+        {%- endif %}
         "ingest-percentage": {{ingest_percentage | default(100)}}
       },
       "clients": {{bulk_indexing_clients | default(8)}},
