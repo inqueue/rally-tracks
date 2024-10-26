@@ -146,12 +146,12 @@
 {% endif -%}
     {# default to generated dates based on now, otherwise use the date value provided in the track parameter #}
     "start-date": {{ (_ts | get_start_date if p_start_date == "now" else p_start_date) | tojson }},
-    "end-date": {{ (_ts | get_end_date if p_end_date | int(-1) != -1 else p_end_date) | tojson }},
+    "end-date": {{ (_ts | get_end_date(p_end_date) if p_end_date | int(-1) != -1 else p_end_date) | tojson }},
     "bulk-start-date": {{ (_ts | get_start_date if p_bulk_start_date == "now" else p_bulk_start_date) | tojson }},
-    "bulk-end-date": {{ (_ts | get_end_date if p_bulk_end_date | int(-1) != -1 else p_bulk_end_date) | tojson }},
+    "bulk-end-date": {{ (_ts | get_end_date(p_end_date) if p_bulk_end_date | int(-1) != -1 else p_bulk_end_date) | tojson }},
     "query-average-interval": "{{ query_average_interval }}",
     "query-min-date": {{ (_ts | get_start_date if p_query_min_date == "now" else p_query_min_date) | tojson }},
-    "query-max-date": {{ (_ts | get_end_date if p_query_max_date | int(-1) != -1 else p_query_max_date) | tojson }},
+    "query-max-date": {{ (_ts | get_end_date(p_end_date) if p_query_max_date | int(-1) != -1 else p_query_max_date) | tojson }},
     "query-max-date-start": {{ (_ts | get_start_date if p_query_max_date_start == "now" else p_query_max_date_start) | tojson }},
     "max-total-download-per-corpus-gb": "{{ p_max_download_per_corpus_gb }}",
     "integration-ratios": {{ p_integration_ratios | tojson }},
