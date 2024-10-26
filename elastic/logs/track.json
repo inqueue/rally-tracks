@@ -123,7 +123,15 @@
     "redis-app-slowlogs": ["container"]
   }
 %}
-
+{# set _ts to the number of seconds from now since the epoch #}
+{%- set _ts = now -%}
+{%- set p_start_date = start_date | default("now") -%}
+{%- set p_end_date = end_date | default(1) -%}
+{%- set p_bulk_start_date = bulk_start_date | default("") -%}
+{%- set p_bulk_end_date = bulk_end_date | default("") -%}
+{%- set p_query_min_date = query_min_date | default("now") -%}
+{%- set p_query_max_date = query_max_date | default(1) -%}
+{%- set p_query_max_date_start = query_max_date_start | default("") -%}
 {
   "version": 2,
   "description": "Track for simulating logging workloads",
@@ -133,17 +141,18 @@
     "generator-batch-size": 10000,
     "sample-size": 10000,
     "max-generated-corpus-size": "{{ max_generated_corpus_size | default('2GB') }}",
-{% if data_generation_clients %}
+{%- if data_generation_clients %}
     "data-generation-clients": {{ data_generation_clients }},
-{% endif %}
-    "start-date": "{{ start_date | default('2020-01-01') }}",
-    "bulk-start-date": "{{ bulk_start_date }}",
-    "end-date": "{{ end_date | default('2020-01-02') }}",
-    "bulk-end-date": "{{ bulk_end_date }}",
+{% endif -%}
+    {# default to generated dates based on now, otherwise use the date value provided in the track parameter #}
+    "start-date": {{ (_ts | get_start_date if p_start_date == "now" else p_start_date) | tojson }},
+    "end-date": {{ (_ts | get_end_date if p_end_date | int(-1) != -1 else p_end_date) | tojson }},
+    "bulk-start-date": {{ (_ts | get_start_date if p_bulk_start_date == "now" else p_bulk_start_date) | tojson }},
+    "bulk-end-date": {{ (_ts | get_end_date if p_bulk_end_date | int(-1) != -1 else p_bulk_end_date) | tojson }},
     "query-average-interval": "{{ query_average_interval }}",
-    "query-min-date": "{{ query_min_date | default('2020-01-01') }}",
-    "query-max-date": {{ query_max_date | default(None) | tojson }},
-    "query-max-date-start": {{ query_max_date_start |default(None) | tojson }},
+    "query-min-date": {{ (_ts | get_start_date if p_query_min_date == "now" else p_query_min_date) | tojson }},
+    "query-max-date": {{ (_ts | get_end_date if p_query_max_date | int(-1) != -1 else p_query_max_date) | tojson }},
+    "query-max-date-start": {{ (_ts | get_start_date if p_query_max_date_start == "now" else p_query_max_date_start) | tojson }},
     "max-total-download-per-corpus-gb": "{{ p_max_download_per_corpus_gb }}",
     "integration-ratios": {{ p_integration_ratios | tojson }},
     "exclude-properties": {{ exclude_properties | default(default_exclude_properties) | tojson }},
