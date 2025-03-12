@@ -11,7 +11,7 @@
       "requests.cache.enable": false,
       {% endif -%}
       {# non-serverless-index-settings-marker-end #}
-      {%- if refresh_interval -%}
+      {%- if refresh_interval -%},
       "refresh_interval": {{ refresh_interval | tojson }}
       {% endif -%}
       "codec": "{{codec | default('default')}}",
