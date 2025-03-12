@@ -19,7 +19,7 @@
     {%- set search_clients=p_runtime_search_clients//2 %}
     {
       "parallel": {
-        "time-period": {{search_time_period | default(1800)}},
+        "completed-by": "index_corpora2_parallel_task",
         "tasks": [
           {
             "operation": {
@@ -34,7 +34,7 @@
               {%- endif %}
             },
             "clients": {{runtime_bulk_indexing_clients | default(8)}},
-            "target-throughput": "10 docs/s"
+            "target-throughput": {{parallel_indexing_target_throughput | default("100 docs/s") | tojson}}
           },
           {
             "operation": "alias_bool_query_1",
