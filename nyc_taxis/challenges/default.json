@@ -793,8 +793,7 @@
               "index.translog.flush_threshold_size": "4g",
                 {% endif %}
               {%- endif -%}{# non-serverless-index-settings-marker-end #}
-              "index.codec": "best_compression",
-              "index.refresh_interval": "30s"
+              "index.codec": "best_compression"
             }{%- endif %}
           },
           "tags": ["setup"]
