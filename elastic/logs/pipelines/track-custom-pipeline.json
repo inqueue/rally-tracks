@@ -1,0 +1,27 @@
+{
+  "description": "Custom pipeline set by Rally",
+  "processors": [
+    {
+      "pipeline": {
+        "name": "track-use-ingest-timestamps",
+        "ignore_missing_pipeline": true,
+        "description": "Final pipeline for processing all incoming Fleet Agent documents."
+      }
+    },
+    {
+      "pipeline": {
+        "name": ".fleet_final_pipeline-1",
+        "ignore_missing_pipeline": true,
+        "description": "Final pipeline for processing all incoming Fleet Agent documents."
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}

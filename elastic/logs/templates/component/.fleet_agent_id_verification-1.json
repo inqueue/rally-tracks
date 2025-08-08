@@ -1,3 +1,4 @@
+{% import "rally.helpers" as rally %}
 {
   "name": ".fleet_agent_id_verification-1",
   "component_template": {
@@ -5,7 +6,11 @@
       "settings": {
         "index": {
           {%- if disable_pipelines is not true %}
+          {%- if use_ingest_timestamps %}
+          "final_pipeline": "track-custom-pipeline"
+          {%- else %}
           "final_pipeline": ".fleet_final_pipeline-1"
+          {%- endif %}
           {%- endif %}
         }
       },
