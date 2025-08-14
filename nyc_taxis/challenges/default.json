@@ -919,6 +919,9 @@
           "clients": {{bulk_indexing_clients | default(8)}},
           "ignore-response-error-level": "{{error_level | default('non-fatal')}}",
           "tags": ["setup"]
+          {%- if p_include_target_throughput %},
+          "target-throughput": {{target_throughput | default(4)}}
+          {%- endif %}
         },
         {
           "name": "refresh-after-index",
