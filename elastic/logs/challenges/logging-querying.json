@@ -21,6 +21,9 @@
         },
         "clients": {{ p_bulk_indexing_clients }},
         "ignore-response-error-level": "{{error_level | default('non-fatal')}}"
+        {%- if include_target_throughput %},
+        "target-throughput": {{indexing_target_throughput | default("40000 docs/s") | tojson}}
+        {%- endif %}
       }
       {%- if force_merge_max_num_segments is defined %},
       {
