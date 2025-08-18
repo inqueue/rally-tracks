@@ -7,6 +7,9 @@
       "operation": "index_corpora1",
       "warmup-time-period": 240,
       "clients": {{bulk_indexing_clients | default(8)}}
+      {%- if include_target_throughput %},
+      "target-throughput": {{initial_indexing_target_throughput | default("40000 docs/s") | tojson}}
+      {%- endif %}
     },
     {
       "name": "refresh-after-index",
@@ -33,8 +36,10 @@
               "conflict-probability": {{p_conflict_probability}}
               {%- endif %}
             },
-            "clients": {{runtime_bulk_indexing_clients | default(8)}},
-            "target-throughput": {{parallel_indexing_target_throughput | default("100 docs/s") | tojson}}
+            "clients": {{runtime_bulk_indexing_clients | default(8)}}
+            {%- if include_target_throughput %},
+            "target-throughput": {{parallel_indexing_target_throughput | default("40000 docs/s") | tojson}}
+            {%- endif %}
           },
           {
             "operation": "alias_bool_query_1",
