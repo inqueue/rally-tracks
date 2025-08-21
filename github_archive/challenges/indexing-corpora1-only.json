@@ -1,0 +1,15 @@
+{
+  "name": "indexing-corpora1-only",
+  "description": "Index corpora1 only",
+  "schedule": [
+    {{ rally.collect(parts="../common/schedule_setup.json") }},
+    {
+      "operation": "index_corpora1",
+      "warmup-time-period": 240,
+      "clients": {{bulk_indexing_clients | default(8)}}
+      {%- if include_target_throughput %},
+      "target-throughput": {{initial_indexing_target_throughput | default("40000 docs/s") | tojson}}
+      {%- endif %}
+    }
+  ]
+}
