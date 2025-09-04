@@ -223,13 +223,12 @@
     }
   ],
   "component-templates": [
-    {% if p_mapping == "mapped" %}
-    {% if build_flavor != "serverless" %}
+    {% if p_mapping == "mapped" -%}
+    {% if build_flavor != "serverless" or use_ingest_timestamps -%}
       {
           "name": ".fleet_agent_id_verification-1",
           "template": "./templates/component/.fleet_agent_id_verification-1.json",
           "template-path": "component_template"
-
       },
       {
           "name": ".fleet_globals-1",
